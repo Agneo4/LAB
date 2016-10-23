@@ -1,3 +1,5 @@
+package LAB_7;
+
 import java.util.*;
 
 class CustomException extends Exception
