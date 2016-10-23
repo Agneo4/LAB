@@ -1,2 +1,0 @@
-hello My Name is Adarsh
-This is a file handling java code
