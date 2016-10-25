@@ -15,7 +15,7 @@ class CustomException extends Exception
 	}
 }
 
-public class Random
+class Random
 {
 	Scanner sc = new Scanner(System.in);
 	public void check_2d() throws CustomException
@@ -42,7 +42,7 @@ public class Random
 	}
 }
 
-class custom
+public class custom
 {
 	public static void main(String[] args)
 	{
