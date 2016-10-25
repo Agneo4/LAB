@@ -42,60 +42,34 @@ CLL* CLL::enter(CLL* p){
     return p;
 }
 
-CLL* CLL::add(CLL *p1, CLL *p2){
-    if(p1==NULL)	return p2;
-    else if(p2==NULL)	return p1;
-
-    CLL *total=NULL, *x=p1, *y=p2;
-    int f1, f2; f1=f2=0;
-    while(x!=p1 || y!=p2 && f1==0 && f2==0)
-    {
-        CLL *n=new CLL;
-
-        if(x->exp == y->exp){
-            n->co = x->co + y->co;
-            n->exp = x->exp;
-            x=x->next;	y=y->next;
-        }
-        else if(x->exp > y->exp){
-            n->co = x->co;
-            n->exp = x->exp;
-            x=x->next;
-        }
-        else if(x->exp < y->exp){
-            n->co = y->co;
-            n->exp = y->exp;
-            y=y->next;
-        }
-        if(x==p1)   f1=1;
-        if(y==p2)   f2=1;
-        if(total==NULL){
-            total=n;
-            total->next=total;
-        }
-        else{
-            CLL *node=total;
-            while(node->next!=total)
-                node=node->next;
-            node->next=n;
-            node->next->next=total;
-        }
-    }
-    if(f1==1 && f2==0){
-        total->next=x;
-        CLL *node=total;
-        while(node->next!=total)
-            node=node->next;
-        node->next=total;        
-    }
-    if(f1==0 && f2==1){
-        total->next=y;
-        CLL *node=total;
-        while(node->next!=total)
-            node=node->next;
-        node->next=total;        
-    }
-    return total;    
+CLL* CLL::add(CLL *a, CLL *b){
+    CLL *startA, *c, *lastC;
+    int done=0;
+    startA=a;	a=a->next;	b=b->next;
+    c=new CLL();	c->exp=-1;	lastC=b->co;
+    do{
+    	if(a->exp<b-<exp){
+    		c->next=new CLL();		c=c->next;
+    		c->co=b->co;	c->exp=b->exp;
+    		b=b->next;
+    	}
+    	else if(a->exp==b->exp){
+    		if(startA==a)	done=1;
+    		elseif(a->co + b->co !=0 ){
+    			c->next=new CLL();	c=c->next;
+    			c->co = a->co + b->co;
+    			c->exp = a->exp;
+    			a = a->next;	b = b->next;
+    		}
+    	}
+    	else{
+    		c->next=new CLL();	c=c->next;
+    		c->co=a->co;	c->exp=a->exp;
+    		a=a->next;
+    	}
+    }while(!done);
+    c->next=lastC;c=c->next;
+    return c;
 }
 
 void CLL::show(CLL *p)
