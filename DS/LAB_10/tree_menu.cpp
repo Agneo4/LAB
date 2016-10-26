@@ -55,7 +55,7 @@ void BT::tr_inorder(BT* root){
 
 		if(top!=-1){
 			curr=s[top--];
-			cout<<curr->data;
+			cout<<curr->data<<'\t';
 			curr=curr->rchild;
 		}
 		else	return;
@@ -63,53 +63,19 @@ void BT::tr_inorder(BT* root){
 }
 
 void BT::tr_preorder(BT *root){
-	BT *curr, *s[20];
-	int top=-1;
-	if(root==NULL){
-		cout<<"Empty list"<<endl;
-		return ;
-	}
-
-	curr=root;
-	while(1){
-		while(curr!=NULL){
-			s[++top]=curr;
-			curr=curr->lchild;
-		}
-
-		if(top!=-1){
-			curr=s[top--];
-			cout<<curr->data;
-			curr=curr->rchild;
-		}
-		else	return;
-	}
+	if(!root)	return;
+	cout<<root->data<<'\t';
+	tr_inorder(root->lchild);
+	tr_inorder(root->rchild);
 }
 
 void BT::tr_postorder(BT *root){
-	BT *curr, *s[20];
-	int top=-1;
-	if(root==NULL){
-		cout<<"Empty list"<<endl;
-		return ;
-	}
-
-	curr=root;
-	while(1){
-		while(curr!=NULL){
-			s[++top]=curr;
-			curr=curr->lchild;
-		}
-
-		if(top!=-1){
-			curr=s[top--];
-			curr=curr->rchild;
-			cout<<curr->data;
-		}
-		
-		else	return;
-	}
+	if(!root)	return;
+	tr_inorder(root->lchild);
+	tr_inorder(root->rchild);
+	cout<<root->data<<'\t';
 }
+
 
 int BT::dis_parent(BT* root, int elem){
 	BT*curr=root;
@@ -117,12 +83,12 @@ int BT::dis_parent(BT* root, int elem){
 		return 1;
 	}
 	
-	if(dis_parent(curr->lchild,elem)==1){
-		cout<<curr->data;
+	if(curr->lchild!=NULL && dis_parent(curr->lchild,elem)==1){
+		cout<<curr->data<<'\t';
 		return 0;
 	}
-	else if (dis_parent(curr->rchild, elem)==1){
-		cout<<curr->data;
+	else if (curr->rchild!=NULL && dis_parent(curr->rchild, elem)==1){
+		cout<<curr->data<<'\t';
 		return 0;
 	}
 	return 0;
@@ -132,8 +98,8 @@ int BT::count_leaf(BT* root){
 	static int c=0;
 	if(root->lchild==root->rchild && root->rchild==NULL)
 		c++;
-	count_leaf(root->lchild);
-	count_leaf(root->rchild);
+	if(root->lchild!=NULL)	count_leaf(root->lchild);
+	if(root->rchild!=NULL)	count_leaf(root->rchild);
 	return c;
 }
 
@@ -143,12 +109,12 @@ int BT::disp_anc(BT* root, int elem){
 		return 1;
 	}
 	
-	if(disp_anc(curr->lchild,elem)==1){
-		cout<<curr->data;
+	if(curr->lchild!=NULL && disp_anc(curr->lchild,elem)==1){
+		cout<<curr->data<<'\t';
 		return 1;
 	}
-	else if (disp_anc(curr->rchild, elem)==1){
-		cout<<curr->data;
+	else if (curr->rchild!=NULL && disp_anc(curr->rchild, elem)==1){
+		cout<<curr->data<<'\t';
 		return 1;
 	}
 	return 0;
