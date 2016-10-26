@@ -13,11 +13,16 @@ public:
 	void tr_preorder(BT*);
 	void tr_postorder(BT*);
 	int dis_parent(BT*, int);
-	void depth(BT*);
-	int disp_anc(BT*);
+	int depth(BT*);
+	int disp_anc(BT*, int);
 	int count_leaf(BT*);
 	~BT();
 };
+
+BT::BT(){
+	data=0;
+	rchild=lchild=NULL;
+}
 
 void BT::insert(BT* *root, int v){
     BT* curr = *root;
@@ -91,15 +96,17 @@ void BT::tr_postorder(BT *root){
 
 	curr=root;
 	while(1){
-		if(top!=-1){
-			curr=s[top--];
-			cout<<curr->data;
-			curr=curr->rchild;
-		}
-		else while(curr!=NULL){
+		while(curr!=NULL){
 			s[++top]=curr;
 			curr=curr->lchild;
 		}
+
+		if(top!=-1){
+			curr=s[top--];
+			curr=curr->rchild;
+			cout<<curr->data;
+		}
+		
 		else	return;
 	}
 }
@@ -160,23 +167,37 @@ BT::~BT(){
 int main(){
 	BT* root=NULL;
 
-	int opt;
+	int o;
 	do{
+		cout<<"\n\tChoose."
+			<<"\n1. Insert Element."
+			<<"\n2. In-Order Traversal."
+			<<"\n3. Post-Order Traversal."
+			<<"\n4. Pre-Order Traversal."
+			<<"\n5. Display parent of an Element."
+			<<"\n6. Depth of Tree."
+			<<"\n7. Display Ancestors of an Element."
+			<<"\n8. No of Leaf Nodes."
+			<<"\n9. Exit";
 		cin>>o;
+
 		if(o==1)if(o==1){
 			int a;
 			cout<<"\nEnter the Element : ";cin>>a;
 			root->insert(&root, a);
 		}
+		
 		if(o==2)	root->tr_inorder(root);
 		if(o==3)	root->tr_postorder(root);
 		if(o==4)	root->tr_preorder(root);
+		
 		if(o==5){
 			int a;
 			cout<<"\nEnter the Element : ";cin>>a;
 			int x=root->dis_parent(root, a);
 			if(!a)	cout<<"\nElement not found"<<endl;
 		}
+		
 		if(o==6)	cout<<"Depth is : "<<root->depth(root)<<endl;
 		if(o==7){
 			int a;
@@ -184,6 +205,7 @@ int main(){
 			int x=root->disp_anc(root, a);
 			if(!a)	cout<<"\nElement not found"<<endl;
 		}
+		
 		if(o==8)	cout<<"\nNo of Leaf Nodes are : "<<root->count_leaf(root)<<endl;
 	}while(o!=9);
 

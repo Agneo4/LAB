@@ -48,6 +48,7 @@ int main(){
 
 	int o;
 	do{
+		cout<<"\n\tChoose.\n1. Insert\n2. Display\n3. Exit"<<endl;
 		cin>>o;
 		if(o==1){
 			int a;

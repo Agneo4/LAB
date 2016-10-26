@@ -1,99 +1,176 @@
-#include <iostream>
-#include <stdio.h>
-
+#include<iostream>
 using namespace std;
 
-class CLL{
-    int co, exp;
-    CLL *next;
+class list
+{
+  int coeff;
+  int degree;
+  list *next;
 
-public:
-    CLL(){
-        co=exp=0;
-        next=NULL;
-    }
-    CLL* enter(CLL*);
-    CLL* add(CLL*, CLL*);
-    void show(CLL*);
+  public:
+  void insert();
+  void insert(int,int);
+  void display();
+  void add();
 };
 
-CLL* CLL::enter(CLL* p){
-    cout<<"\nEnter the value in decreasing exponents. give -999 to stop;\n";
-    do{
-        CLL *node=new CLL();
-        cout<<"\nEnter exponent : ";cin>>node->exp;
-        if(node->exp == -999)	break;
-        cout<<"\nEnter coefficient : ";cin>>node->co;
-        if(node->co == 0)	continue;
-        if(p==NULL){
-            p=node;
-            p->next=p;
-        }
-        else{
-            CLL *n=p;
-            cout<<p->co<<p->exp<<endl;
-            while(n->next!=p)
-                n=n->next;
-            
-            n->next=node;
-            n->next->next=p;
-        }
-    }while(1);
-    return p;
-}
+list *rear1=NULL;
+list *rear2=NULL;
+list *rear3=NULL;
+list *head1=new list;
+list *front1=head1;
+list *head2=new list;
+list *front2=head2;
+list *head3=new list;
+list *front3=head3;
 
-CLL* CLL::add(CLL *a, CLL *b){
-    CLL *startA, *c, *lastC;
-    int done=0;
-    startA=a;	a=a->next;	b=b->next;
-    c=new CLL();	c->exp=-1;	lastC=b->co;
-    do{
-    	if(a->exp<b-<exp){
-    		c->next=new CLL();		c=c->next;
-    		c->co=b->co;	c->exp=b->exp;
-    		b=b->next;
-    	}
-    	else if(a->exp==b->exp){
-    		if(startA==a)	done=1;
-    		elseif(a->co + b->co !=0 ){
-    			c->next=new CLL();	c=c->next;
-    			c->co = a->co + b->co;
-    			c->exp = a->exp;
-    			a = a->next;	b = b->next;
-    		}
-    	}
-    	else{
-    		c->next=new CLL();	c=c->next;
-    		c->co=a->co;	c->exp=a->exp;
-    		a=a->next;
-    	}
-    }while(!done);
-    c->next=lastC;c=c->next;
-    return c;
-}
-
-void CLL::show(CLL *p)
+void list::insert()
 {
-    CLL *node=p;
-    cout<<node->co<<"x^"<<node->exp;
-    node=node->next;
-    while(node!=p){
-        cout<<" + "<<node->co<<"x^"<<node->exp;
-        node=node->next;
+  cout<<"\nInsert in list 1 or 2? ";
+  int n;
+  cin>>n;
+  list *temp=new list;
+  int c,d;
+  cout<<"\nEnter coeffecient: ";
+  cin>>c;
+  cout<<"\nEnter degree: ";
+  cin>>d;
+  temp->coeff=c;
+  temp->degree=d;
+  if(n==1)
+  {
+    if(rear1==NULL)
+    {
+      head1->next=temp;
+      rear1=temp;
+      temp->next=front1;
     }
+    else
+    {
+      rear1->next=temp;
+      rear1=temp;
+      temp->next=front1;
+    }
+  }
+  else if(n==2)
+  {
+    if(rear2==NULL)
+    {
+      head2->next=temp;
+      rear2=temp;
+      temp->next=front2;
+    }
+    else
+    {
+      rear2->next=temp;
+      rear2=temp;
+      temp->next=front2;
+    }
+  }
+  else
+    cout<<"\nEnter valid list number!!!";
 }
 
-int main(){
-        
-    CLL *f=new CLL(), *p1=NULL, *p2=NULL;
-    p1=f->enter(p1);
-    f->show(p1);
+void list::insert(int c, int d)
+{
+  list *temp=new list;
+  temp->coeff=c;
+  temp->degree=d;
+  if(rear3==NULL)
+  {
+    head3->next=temp;
+    rear3=temp;
+    temp->next=front3;
+  }
+  else
+  {
+    rear3->next=temp;
+    rear3=temp;
+    temp->next=front3;
+  }
+}
 
-    p2=f->enter(p2);
-    f->show(p2);
+void list::add()
+{
+  rear3=NULL;
+  head3->next=NULL;
+  list *curr2=front2->next;
+  for(list *curr1=front1->next;curr1!=head1;curr1=curr1->next)
+  {
+    if(curr2->degree==curr1->degree)
+    {
+      insert((curr2->coeff+curr1->coeff), curr2->degree);
+      curr2=curr2->next;
+    }
 
-    CLL *tot=f->add(p1, p2);
-    f->show(tot);
+    else if(curr1->degree>curr2->degree)
+      insert(curr1->coeff,curr1->degree);
 
-    return 0;
+    else if(curr1->degree<curr2->degree)
+    {
+      while(curr2->degree<curr1->degree || curr2!=head2)
+      {
+	insert(curr2->coeff,curr2->degree);
+	if(curr2->degree==curr1->degree)
+	  insert((curr2->coeff+curr1->coeff), curr2->degree);
+      }
+    }
+  }
+  if(curr2!=head2)
+  {
+    while(curr2!=head2)
+    {
+      insert(curr2->coeff,curr2->degree);
+      curr2=curr2->next;
+    }
+  }
+  list *curr;
+  for(curr=front3->next;curr!=head3;curr=curr->next)
+    cout<<curr->coeff<<"x^"<<curr->degree<<" + ";
+}
+
+void list::display()
+{
+  cout<<"\nDisplay list 1 or 2?";
+  int n;
+  cin>>n;
+  list *curr;
+  if(n==1)
+  {
+    for(curr=front1->next;curr!=head1;curr=curr->next)
+      cout<<curr->coeff<<"x^"<<curr->degree<<" + ";
+  }
+  else if(n==2)
+  {
+    for(list *curr=front2->next;curr!=head2;curr=curr->next)
+      cout<<curr->coeff<<"x^"<<curr->degree<<" + ";
+  }
+  else
+    cout<<"\nEnter valid list number!";
+}
+
+int main()
+{
+  char cont='y';
+  int opt;
+  list l;
+
+  while(cont=='y')
+  {
+    cout<<"\n1.Insert\n2.Display\n3.Add\n4.Exit\n\nEnter your choice: ";
+    cin>>opt;
+    switch(opt)
+    {
+      case 1:  l.insert();
+	       break;
+      case 2:  l.display();
+	       break;
+      case 3:  l.add();
+	       break;
+    }
+    cout<<"Continue(y/n): ";
+    cin>>cont;
+  }
+
+  return 0;
 }
