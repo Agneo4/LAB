@@ -5,7 +5,7 @@ import java.util.*;
 class A extends Thread{
 	int i;
 	A(int i){this.i=i;}
-        @Override
+    @Override
 	public void run(){
             for(int k=0; k<10; k++)
                 System.out.println("Thread " + i + " is running.");
