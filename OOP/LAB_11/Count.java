@@ -5,9 +5,9 @@ import javax.swing.*;
 
 public class Count extends JPanel {
 
-    private JButton button;
-    private JLabel label;
-    private JTextField t;
+    private final JButton button;
+    private final JLabel label;
+    private final JTextField t;
     private int count;
 
     public Count() {
