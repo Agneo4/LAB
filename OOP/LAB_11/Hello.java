@@ -8,6 +8,7 @@ public class Hello {
         JLabel label = new JLabel("Hello World");
         frame.add(label);
         frame.setSize(400, 50);
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 }
