@@ -7,10 +7,10 @@ class BST{
 	BST *left, *right;
 public:
 	BST();
-	void inorder(BST*);
-	BST* insert(BST*, int);
+	void display(BST*);
+	void insert(BST**, int);
 	void search(BST*, int);
-	void remove(BST*, int);
+    void remove(BST**, int);
 };
 
 BST::BST(){
@@ -18,22 +18,20 @@ BST::BST(){
 	left=right=NULL;
 }
 
-BST* BST::insert(BST* root, int data){
-	if(!root){
-		root=new BST();
-		root->data=data;
-		return root;
+void BST::insert(BST **root, int data){
+    if(!*root){
+        (*root)=new BST();
+        (*root)->data=data;
 	}
-	else if(data < root->data)	insert(root->left, data);
-	else if(data > root->data)	insert(root->right, data);
-	return root;
+	else if(data < (*root)->data)	insert(&((*root)->left), data);
+	else if(data > (*root)->data)	insert(&((*root)->right), data);
 }
 
-void BST::inorder(BST* root){
+void BST::display(BST* root){
 	if(!root)	return;
-	inorder(root->left);
+	display(root->left);
 	cout<<root->data<<'\t';
-	inorder(root->right);
+	display(root->right);
 }
 
 void BST::search(BST *root, int data){
@@ -50,30 +48,43 @@ void BST::search(BST *root, int data){
 		search(root->right, data);
 }
 
-void BST::remove(BST *root, int data){
-	if(!root){
-		return;
+void BST::remove(BST **root, int data){
+    if(!*root){
+		cout<<"List doesn't Exist."<<endl;
+        return;
 	}
-	if(data == root->data){
+	if(data == (*root)->data){
 		cout<<"\nElement found"<<endl;
-		if(root->left==NULL && root->right==NULL)
-			delete root;
-		else if(root->left == NULL){
-			root->data=root->left->data;
-			delete root->left;
-			root->left=NULL;
-		}
-		else if(root->left == NULL && root->right != NULL){
-			root->data=root->right->data;
-			delete root->right;
-			root->right=NULL;
-		}
-		return;
-	}
-	if(data < root->data)
-		remove(root->left, data);
+        if(!((*root)->left) && !((*root)->right)){
+            BST *t=*root;
+            delete(t);
+            *root=NULL;
+            return;
+        }
+        else if((*root)->right){
+            BST *node=*root;
+            while(node->left->left && node->left)
+                node=node->left;
+            (*root)->data=node->left->data;
+            BST *t=node->left;
+            delete(t);
+            node->left=NULL;
+            return ;
+        }
+        else if((*root)->left){
+            BST *node=*root;
+            while(node->right->right && node->right)
+                node=node->right;
+            (*root)->data=node->right->data;
+            BST *t=node->left;
+            delete(t);
+            node->right=NULL;
+        }
+    }
+	else if(data < (*root)->data)
+		remove(&((*root)->left), data);
 	else
-		remove(root->right, data);
+		remove(&((*root)->right), data);
 }
 
 int main(){
@@ -86,14 +97,14 @@ int main(){
 		if(o==1){
 			int a;
 			cout<<"\nEnter the Element : ";cin>>a;
-			root=f->insert(root, a);
+			f->insert(&root, a);
 		}
-		if(o==2)	f->inorder(root);
+		if(o==2)	f->display(root);
 
 		if(o==3){
 			int a;
 			cout<<"\nEnter the Element : ";cin>>a;
-			f->remove(root, a);
+			f->remove(&root, a);
 		}
 
 		if(o==4){
